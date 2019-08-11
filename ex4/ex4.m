@@ -19,10 +19,10 @@
 clear ; close all; clc
 
 %% Setup the parameters you will use for this exercise
-input_layer_size  = 400;  % 20x20 Input Images of Digits
-hidden_layer_size = 25;   % 25 hidden units
-num_labels = 10;          % 10 labels, from 1 to 10   
-                          % (note that we have mapped "0" to label 10)
+input_layer_size  = 88;  % 88 notes
+hidden_layer_size = 12;   % 12 hidden units - variables
+num_labels = 48;          % 48 labels for each pitch by chord type
+                          
 
 %% =========== Part 1: Loading and Visualizing Data =============
 %  We start the exercise by first loading and visualizing the dataset. 
@@ -32,14 +32,27 @@ num_labels = 10;          % 10 labels, from 1 to 10
 % Load Training Data
 fprintf('Loading and Visualizing Data ...\n')
 
-load('ex4data1.mat');
+%// load('ex4data1.mat');
+X = csvread('chords.csv');
+
+% These need to be preprocessed. y-value preprocessing is already part of the code
+% , but the features are not. 
+y = X(:,4);
+X = X(:,1:3);
+
+x = zeros(size(X,1), input_layer_size);
+
+for i = 1:size(X, 1)
+    x(i,:) = full(sparse(X(i,:), 1, 1, 88, 1))'; %'
+end 
+X = x;
 m = size(X, 1);
 
 % Randomly select 100 data points to display
-sel = randperm(size(X, 1));
-sel = sel(1:100);
+%sel = randperm(size(X, 1));
+%sel = sel(1:100);
 
-displayData(X(sel, :));
+%displayData(X(sel, :));
 
 fprintf('Program paused. Press enter to continue.\n');
 %pause;
@@ -52,7 +65,9 @@ fprintf('Program paused. Press enter to continue.\n');
 fprintf('\nLoading Saved Neural Network Parameters ...\n')
 
 % Load the weights into variables Theta1 and Theta2
-load('ex4weights.mat');
+%// %load('ex4weights.mat');
+Theta1 = zeros(hidden_layer_size, input_layer_size + 1)
+Theta2 = zeros(num_labels, hidden_layer_size + 1)
 
 % Unroll parameters 
 nn_params = [Theta1(:) ; Theta2(:)];
@@ -231,4 +246,8 @@ pred = predict(Theta1, Theta2, X);
 
 fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
 
-
+% How can I plot pred and y on the same graph. 
+sorted = sortrows ([y, pred], 1);
+plot(sorted(:,1), "+");
+hold on;
+plot(sorted(:,2), "*r");

@@ -41,7 +41,7 @@ z3 = (a2 * Theta2'); %'
 h = a3 = sigmoid(z3);
 
 % y mapped to label vectors:
-y_vectorized = full(sparse(1:size(y,1), y, 1, size(y,1), num_labels));
+y_vectorized = full(sparse(1:size(y,1), y, 1, size(y,1), num_labels));  
 
 c = sum(((-y_vectorized .* log(h)) - (1 - y_vectorized) .* log(1 - h)), 2);
 

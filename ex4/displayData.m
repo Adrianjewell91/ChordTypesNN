@@ -6,7 +6,7 @@ function [h, display_array] = displayData(X, example_width)
 
 % Set example_width automatically if not passed in
 if ~exist('example_width', 'var') || isempty(example_width) 
-	example_width = round(sqrt(size(X, 2)));
+	example_width = round(sqrt(size(X, 2)))
 end
 
 % Gray Image
@@ -14,11 +14,11 @@ colormap(gray);
 
 % Compute rows, cols
 [m n] = size(X);
-example_height = (n / example_width);
+example_height = ceil(n / example_width)
 
 % Compute number of items to display
-display_rows = floor(sqrt(m));
-display_cols = ceil(m / display_rows);
+display_rows = floor(sqrt(m))
+display_cols = floor(m / display_rows)
 
 % Between images padding
 pad = 1;
@@ -38,9 +38,12 @@ for j = 1:display_rows
 		
 		% Get the max value of the patch
 		max_val = max(abs(X(curr_ex, :)));
+		pad + (j - 1) * (example_height + pad) + (1:example_height)
+		pad + (i - 1) * (example_width + pad) + (1:example_width)
+		X(curr_ex, :)
 		display_array(pad + (j - 1) * (example_height + pad) + (1:example_height), ...
-		              pad + (i - 1) * (example_width + pad) + (1:example_width)) = ...
-						reshape(X(curr_ex, :), example_height, example_width) / max_val;
+		            pad + (i - 1) * (example_width + pad) + (1:example_width)) = ...
+						reshape([X(curr_ex, :) [0,0]], example_height, example_width) / max_val;
 		curr_ex = curr_ex + 1;
 	end
 	if curr_ex > m, 

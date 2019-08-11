@@ -41,7 +41,7 @@ chords = [
 all_chords = []
 
 [[0, 4, 7], [0, 3, 7]].each_with_index do |chord, type|
-    (0..11).each do |pitch_center|
+    (1..12).each do |pitch_center|
        p = chord.dup.map{|pitch| pitch + pitch_center}
        while p[-1] < 88
           p.concat(p[-3..-1].map{|pitch| pitch + 12})
@@ -62,7 +62,7 @@ all_chords = []
 end
 
 [[0, 3, 6]].each_with_index do |chord, type|
-    (0..2).each do |pitch_center|
+    (1..3).each do |pitch_center|
        p = chord.dup.map{|pitch| pitch + pitch_center}
        while p[-1] < 88
           p.concat(p[-3..-1].map{|pitch| pitch + 9})
@@ -78,7 +78,7 @@ end
 end
 
 [[0, 4, 8]].each_with_index do |chord, type|
-    (0..3).each do |pitch_center|
+    (1..4).each do |pitch_center|
        p = chord.dup.map{|pitch| pitch + pitch_center}
        while p[-1] < 88
           p.concat(p[-3..-1].map{|pitch| pitch + 12})
@@ -95,7 +95,7 @@ end
 end
 
 require 'csv'
-CSV.open("chords.csv", "w") do |csv|
+CSV.open("ex4/chords.csv", "w") do |csv|
    # only want the chords that don't have repeated notes.
    # Where no two chords can be mod by 12
    all_chords.select{|chord| chord[0][0]%12 != chord[0][1]%12 && 
