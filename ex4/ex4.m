@@ -32,20 +32,30 @@ num_labels = 48;          % 48 labels for each pitch by chord type
 % Load Training Data
 fprintf('Loading and Visualizing Data ...\n')
 
-%// load('ex4data1.mat');
-X = csvread('chords.csv');
+load('thedata');
 
-% These need to be preprocessed. y-value preprocessing is already part of the code
-% , but the features are not. 
-y = X(:,4);
-X = X(:,1:3);
+%// data = csvread('chords.csv');
+%// temp = zeros(size(data,1), input_layer_size);
+%
+%// y = data(1:8005,4);
+%// ycv = data(8005:11000,4);
+%// yval = data(11001:14168,4);
+%
+%// % Convert to feature vector of zeros and ones.
+%// for i = 1:size(data, 1)
+%//     temp(i,:) = full(sparse(data(i,1:3), 1, 1, 88, 1))'; %'
+%// end 
+%
+%// data = temp;
+%
+%// % These need to be preprocessed. y-value preprocessing is already part of the code
+%// % , but the features are not. 
+%// X = data(1:8005,1:88);
+%// Xcv = data(8005:11000,1:88);
+%// Xval = data(11001:14168,1:88);
+%
+%// save "thedata" X y Xval yval Xcv ycv;
 
-x = zeros(size(X,1), input_layer_size);
-
-for i = 1:size(X, 1)
-    x(i,:) = full(sparse(X(i,:), 1, 1, 88, 1))'; %'
-end 
-X = x;
 m = size(X, 1);
 
 % Randomly select 100 data points to display
@@ -242,12 +252,15 @@ fprintf('\nProgram paused. Press enter to continue.\n');
 %  neural network to predict the labels of the training set. This lets
 %  you compute the training set accuracy.
 
-pred = predict(Theta1, Theta2, X);
+pred = predict(Theta1, Theta2, Xval);
 
-fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
+fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == yval)) * 100);
 
 % How can I plot pred and y on the same graph. 
-sorted = sortrows ([y, pred], 1);
+sorted = sortrows ([yval, pred], 1);
 plot(sorted(:,1), "+");
 hold on;
 plot(sorted(:,2), "*r");
+
+
+
