@@ -32,6 +32,9 @@ num_labels = 48;          % 48 labels for each pitch by chord type
 % Load Training Data
 fprintf('Loading and Visualizing Data ...\n')
 
+% Load, X y, Xcv ycv, Xval, yval
+% The network will train the model on X, and validate on Xcv.
+% distribution is 60/20/20.
 load('thedata');
 
 %// data = csvread('chords.csv');
